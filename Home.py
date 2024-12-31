@@ -1,11 +1,39 @@
 import streamlit as st
+import requests
+from datetime import datetime
 
+# Function to get the user's IP address using an external API (ipify)
+def get_ip():
+    try:
+        # Get the IP address of the user from the ipify API
+        response = requests.get('https://api.ipify.org?format=json')
+        ip = response.json()['ip']
+    except requests.exceptions.RequestException as e:
+        # If there's an issue (e.g., no internet connection), return a fallback message
+        ip = "Unable to fetch IP"
+    return ip
+
+# Function to log the IP address to a file
+def log_ip(ip):
+    # Open a text file in append mode
+    with open("ip_log.txt", "a") as log_file:
+        # Write the timestamp and IP address to the log file
+        log_file.write(f"{datetime.now()} - IP Address: {ip}\n")
+
+# Get the user's IP address
+user_ip = get_ip()
+
+# Log the IP address to the file
+log_ip(user_ip)
+
+# Set up the Streamlit page configuration
 st.set_page_config(
     page_title="Home",
     page_icon="👋",
     layout="wide"
 )
 
+# Main content of the app
 st.write("# Welcome to DataInsights AI! 👋")
 
 st.sidebar.success("Select a demo above.")
