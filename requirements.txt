@@ -10,3 +10,4 @@ ydata-profiling
 streamlit-pandas-profiling
 numpy
 scikit-learn
+requests
